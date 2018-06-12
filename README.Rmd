@@ -1,0 +1,53 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# flow
+
+The goal of **flow** is to make it easy to extract numbers for population
+defining flowcharts with minimal edits to existing **dplyr** workflows.
+
+Note that this is an extremely early stage (practically idea concept) package.
+
+## Installation
+
+You can install the development version with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("mikmart/flow")
+```
+
+## Example
+
+You can `flow::track` the number of rows dropped with `dplyr::filter`:
+
+```{r example-1, message = FALSE}
+library(dplyr)
+
+filtered <- mtcars %>%
+  flow::track("1974 Motor Trend cars") %>%
+  filter(mpg >= 20, mpg <= 30) %>%
+  filter(cyl < 6)
+```
+
+The result looks like a regular tbl_df ...
+```{r example-2}
+filtered
+```
+
+... but the `filter` "history" can be extracted.
+```{r example-3}
+filtered %>% 
+  flow::chart()
+```

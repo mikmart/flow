@@ -1,0 +1,18 @@
+Package: flow
+Type: Package
+Title: Flowchart numbers from dplyr workflows
+Version: 0.0.9000
+Author: person("Mikko", "Marttila", role = c("aut", "cre"))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Imports: 
+    rlang (>= 0.2.0),
+    purrr (>= 0.2.4),
+    tibble (>= 1.4.2)
+Enhances: 
+    dplyr (>= 0.7.4)
