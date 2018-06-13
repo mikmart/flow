@@ -10,8 +10,16 @@ flow <- function(x, initial = "Initial population") {
 #' @export
 track <- flow
 
+as_flow <- function(x) {
+  flow(x)
+}
+
 new_flow <- function(x, flow, ..., subclass = NULL) {
   tibble::new_tibble(x, flow = flow, ..., subclass = c(subclass, "flow_df"))
+}
+
+unflow <- function(x) {
+  structure(x, flow = NULL, class = setdiff(class(x), "flow_df"))
 }
 
 reconstruct <- function(new, old) {
