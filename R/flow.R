@@ -43,3 +43,9 @@ add_step <- function(x, step, n_incl, n_excl) {
   )
   set_flow(x, new)
 }
+
+update_flow <- function(included, original, step) {
+  n_incl <- nrow(included)
+  n_excl <- nrow(original) - n_incl
+  add_step(included, step, n_incl, n_excl)
+}
