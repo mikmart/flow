@@ -1,10 +1,10 @@
 flow <- function(x, initial = "Initial population") {
-  flow_df <- tibble::tibble(
+  flow_table <- tibble::tibble(
     step = initial,
     included = nrow(x),
     excluded = NA_integer_
   )
-  new_flow(x, flow_df)
+  new_flow(x, flow_table = flow_table)
 }
 
 #' @export
@@ -14,12 +14,16 @@ as_flow <- function(x) {
   flow(x)
 }
 
-new_flow <- function(x, flow, ..., subclass = NULL) {
-  tibble::new_tibble(x, flow = flow, ..., subclass = c(subclass, "flow_df"))
+new_flow <- function(x, flow_table, ..., subclass = NULL) {
+  tibble::new_tibble(x,
+    flow_table = flow_table,
+    ...,
+    subclass = c(subclass, "flow_df")
+  )
 }
 
 unflow <- function(x) {
-  structure(x, flow = NULL, class = setdiff(class(x), "flow_df"))
+  structure(x, flow_table = NULL, class = setdiff(class(x), "flow_df"))
 }
 
 reconstruct <- function(new, old) {
@@ -27,29 +31,37 @@ reconstruct <- function(new, old) {
 }
 
 reconstruct.flow_df <- function(new, old) {
-  new_flow(new, flow = get_flow(old))
+  new_flow(new, flow_table = flow_table(old))
 }
 
-get_flow <- function(x) {
-  attr(x, "flow")
+flow_table <- function(x, ...) {
+  UseMethod("flow_table")
+}
+
+flow_table.flow_df <- function(x, ...) {
+  attr(x, "flow_table")
 }
 
 #' @export
-chart <- get_flow
+chart <- flow_table
 
-set_flow <- function(x, value) {
-  attr(x, "flow") <- value
+set_flow_table <- function(x, value) {
+  attr(x, "flow_table") <- value
   x
 }
 
+`flow_table<-` <- function(x, value) {
+  set_flow_table(x, value)
+}
+
 add_step <- function(x, step, n_incl, n_excl) {
-  old <- get_flow(x)
+  old <- flow_table(x)
   new <- tibble::add_row(old,
     step = step,
     included = n_incl,
     excluded = n_excl
   )
-  set_flow(x, new)
+  set_flow_table(x, new)
 }
 
 update_flow <- function(included, original, step) {
