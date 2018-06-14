@@ -38,6 +38,10 @@ as_flow.data.frame <- function(x, ...) {
   flow(x)
 }
 
+as_flow.grouped_df <- function(x, flow_table, ...) {
+  stop("Not implemented yet")
+}
+
 reconstruct <- function(new, old) {
   UseMethod("reconstruct", old)
 }
@@ -46,21 +50,16 @@ reconstruct.flow_df <- function(new, old) {
   new_flow(new, flow_table = flow_table(old))
 }
 
-flow_table <- function(x, ...) {
-  UseMethod("flow_table")
-}
-
-
-flow_table.flow_df <- function(x, ...) {
-  attr(x, "flow_table")
-}
-
 reconstruct.grouped_flow_df <- function(new, old) {
   stop("Not implemented yet.")
 }
 
-get_flow <- function(x) {
-  attr(x, "flow")
+flow_table <- function(x, ...) {
+  UseMethod("flow_table")
+}
+
+flow_table.flow_df <- function(x, ...) {
+  attr(x, "flow_table")
 }
 
 #' @export

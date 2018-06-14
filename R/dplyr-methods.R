@@ -6,5 +6,5 @@ filter.flow_df <- function(.data, ...) {
 
 #' @export
 group_by.flow_df <- function(.data, ..., add = FALSE) {
-  as_flow(NextMethod(), flow = get_flow(.data))
+  as_flow(NextMethod(), flow_table = flow_table(.data))
 }
