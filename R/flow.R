@@ -50,8 +50,17 @@ flow_table <- function(x, ...) {
   UseMethod("flow_table")
 }
 
+
 flow_table.flow_df <- function(x, ...) {
   attr(x, "flow_table")
+}
+
+reconstruct.grouped_flow_df <- function(new, old) {
+  stop("Not implemented yet.")
+}
+
+get_flow <- function(x) {
+  attr(x, "flow")
 }
 
 #' @export
@@ -80,4 +89,8 @@ update_flow <- function(included, original, step) {
   n_incl <- nrow(included)
   n_excl <- nrow(original) - n_incl
   add_step(included, step, n_incl, n_excl)
+}
+
+update_flow.grouped_flow_df <- function(included, original, step) {
+  stop("Not implemented yet.")
 }
