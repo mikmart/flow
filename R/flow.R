@@ -32,8 +32,6 @@ as_flow <- function(x, ...) {
 
 as_flow.flow_df <- function(x, ...) x
 
-as_flow.grouped_flow_df <- function(x, ...) x
-
 as_flow.data.frame <- function(x, ...) {
   flow(x)
 }
