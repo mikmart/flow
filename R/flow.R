@@ -26,6 +26,22 @@ unflow <- function(x) {
   structure(x, flow_table = NULL, class = setdiff(class(x), "flow_df"))
 }
 
+as_tibble.flow_df <- function(x, ...) {
+  tibble::new_tibble(x)
+}
+
+as_flow <- function(x, ...) {
+  UseMethod("as_flow")
+}
+
+as_flow.flow_df <- function(x, ...) x
+
+as_flow.grouped_flow_df <- function(x, ...) x
+
+as_flow.data.frame <- function(x, ...) {
+  flow(x)
+}
+
 reconstruct <- function(new, old) {
   UseMethod("reconstruct", old)
 }
