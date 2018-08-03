@@ -79,3 +79,10 @@ update_flow <- function(included, original, step) {
   n_excl <- nrow(original) - n_incl
   add_step(included, step, n_incl, n_excl)
 }
+
+all.equal.flow_df <- function(target, current, ...) {
+  msg <- attr.all.equal(target, current)
+  if (is.null(msg)) return(NextMethod())
+  if (isTRUE(next_msg <- NextMethod()))
+    msg else c(msg, next_msg)
+}
