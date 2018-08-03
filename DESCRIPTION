@@ -17,3 +17,5 @@ Imports:
     magrittr
 Enhances: 
     dplyr (>= 0.7.4)
+Suggests: 
+    testthat
