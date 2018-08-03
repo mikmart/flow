@@ -22,14 +22,15 @@ expr_negate <- function(x) {
     return(rlang::lang("!", x))
   }
 
-  fn <- as.character(x[[1L]])
-  args <- x[-1L]
+  fn <- rlang::call_name(x)
+  args <- rlang::call_args(x)
 
   if (fn == "!") {
+    # Unary operator, so only ever 1 arg
     return(args[[1L]])
   }
 
-  fn <- switch_logic_fn(fn)
+  fn <- negate_logic(fn)
 
   if (fn %in% c("&", "|", "&&", "||")) {
     # De Morgan: negate arguments, recursively
@@ -40,19 +41,17 @@ expr_negate <- function(x) {
 }
 
 is_logic_call <- function(x) {
-  if (!is.call(x)) {
+  if (!rlang::is_call(x)) {
     return(FALSE)
   }
 
-  fn <- as.character(x[[1L]])
-
-  logic <- c("!", "&", "|", "&&", "||")
-  comp <- c("==", "!=", ">", ">=", "<", "<=")
-
-  fn %in% c(logic, comp)
+  rlang::call_name(x) %in% .logic_ops
 }
 
-switch_logic_fn <- function(x) {
+.logic_ops <- c("==", "!=", ">", ">=", "<", "<=",
+               "!", "&", "|", "&&", "||")
+
+negate_logic <- function(x) {
   switch(x,
      "&" = "|",
      "|" = "&",
@@ -61,8 +60,8 @@ switch_logic_fn <- function(x) {
     "==" = "!=",
     "!=" = "==",
      ">" = "<=",
+    "<=" = ">",
     ">=" = "<",
-     "<" = ">=",
-    "<=" = ">"
+     "<" = ">="
   )
 }
