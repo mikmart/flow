@@ -8,12 +8,8 @@ magrittr::`%>%`
 
 conds_text <- function(..., .sep = " & ") {
   conds <- rlang::enexprs(...)
-  texts <- exprs_text(conds)
+  texts <- purrr::map_chr(conds, rlang::expr_text)
   paste(texts, collapse = .sep)
-}
-
-exprs_text <- function(exprs, ...) {
-  purrr::map_chr(exprs, rlang::expr_text, ...)
 }
 
 conds_negate <- function(...) {
@@ -55,7 +51,7 @@ is_logic_call <- function(x) {
 }
 
 .logic_ops <- c("==", "!=", ">", ">=", "<", "<=",
-               "!", "&", "|", "&&", "||")
+                "!", "&", "|", "&&", "||")
 
 negate_logic <- function(x) {
   switch(x,
