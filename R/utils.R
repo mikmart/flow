@@ -1,11 +1,3 @@
-#' @importFrom tibble as_tibble
-#' @export
-tibble::as_tibble
-
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 conds_text <- function(..., .sep = " & ") {
   conds <- rlang::enexprs(...)
   texts <- purrr::map_chr(conds, rlang::expr_text)
