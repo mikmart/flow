@@ -23,7 +23,7 @@ unflow <- function(x) {
 }
 
 as_tibble.flow_df <- function(x, ...) {
-  tibble::new_tibble(x)
+  as_tibble(unflow(x), ...)
 }
 
 as_flow <- function(x, ...) {
