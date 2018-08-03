@@ -13,8 +13,10 @@ exprs_text <- function(exprs, ...) {
 }
 
 conds_negate <- function(...) {
-  conds <- rlang::enexprs(...)
-  purrr::map(conds, expr_negate)
+  conds <- rlang::enquos(...)
+  exprs <- purrr::map(conds, rlang::quo_get_expr)
+  exprs <- purrr::map(exprs, expr_negate)
+  purrr::map2(conds, exprs, rlang::quo_set_expr)
 }
 
 expr_negate <- function(x) {
