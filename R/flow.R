@@ -26,6 +26,10 @@ as_tibble.flow_df <- function(x, ...) {
   as_tibble(unflow(x), ...)
 }
 
+as.data.frame.flow_df <- function(x, ...) {
+  as.data.frame(unflow(x), ...)
+}
+
 as_flow <- function(x, ...) {
   UseMethod("as_flow")
 }
