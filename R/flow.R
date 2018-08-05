@@ -11,10 +11,11 @@ flow <- function(x, initial = "Initial population") {
 track <- flow
 
 new_flow <- function(x, flow_table, ..., subclass = NULL) {
+  superclass <- if (dplyr::is_grouped_df(x)) "grouped_df"
   tibble::new_tibble(x,
     flow_table = flow_table,
     ...,
-    subclass = c(subclass, "flow_df")
+    subclass = c(subclass, "flow_df", superclass)
   )
 }
 
