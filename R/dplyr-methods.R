@@ -8,3 +8,8 @@ filter.flow_df <- function(.data, ...) {
 arrange.flow_df <- function(.data, ...) {
   reconstruct(NextMethod(), .data)
 }
+
+#' @export
+mutate.flow_df <- function(.data, ...) {
+  reconstruct(NextMethod(), .data)
+}
