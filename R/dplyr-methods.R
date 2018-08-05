@@ -13,3 +13,8 @@ arrange.flow_df <- function(.data, ...) {
 mutate.flow_df <- function(.data, ...) {
   reconstruct(NextMethod(), .data)
 }
+
+#' @export
+group_by.flow_df <- function(.data, ..., add = FALSE) {
+  reconstruct(NextMethod(), .data)
+}
