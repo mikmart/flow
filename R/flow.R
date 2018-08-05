@@ -56,6 +56,10 @@ flow_table.flow_df <- function(x, ...) {
   attr(x, "flow_table")
 }
 
+flow_table.data.frame <- function(x, ...) {
+  NULL
+}
+
 #' @export
 chart <- flow_table
 
