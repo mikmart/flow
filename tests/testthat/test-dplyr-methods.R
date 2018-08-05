@@ -11,19 +11,19 @@ test_that("verbs preserve flow_df", {
   expect_is(dplyr::arrange(df, y), "flow_df")
   expect_is(dplyr::group_by(df, x), "flow_df")
   expect_is(dplyr::transmute(df, z = 7), "flow_df")
-  expect_is(dplyr::add_count(df), "flow_df")
-  expect_is(dplyr::add_tally(df, x), "flow_df")
 
   expect_is(dplyr::filter(grouped, mean(y) < 6), "flow_df")
   expect_is(dplyr::mutate(grouped, z = mean(y)), "flow_df")
-  expect_is(dplyr::add_count(grouped), "flow_df")
-  expect_is(dplyr::add_tally(grouped, x), "flow_df")
 })
 
-test_that("aggregations don't preserve flow_df", {
-  expect_failure({
-    expect_is(dplyr::count(df, x), "flow_df")
-    expect_is(dplyr::tally(grouped), "flow_df")
-    expect_is(dplyr::summarize(grouped, z = mean(y)), "flow_df")
-  })
+test_that("add_count/tally preserve flow_df", {
+  skip("waiting on generic methods")
+  df <- flow(data.frame(x = c(1, 2, 2), y = 6:4))
+  grouped <- dplyr::group_by(df, x)
+
+  expect_is(dplyr::add_count(df, x), "flow_df")
+  expect_is(dplyr::add_tally(df, y), "flow_df")
+
+  expect_is(dplyr::add_count(grouped), "flow_df")
+  expect_is(dplyr::add_tally(grouped, y), "flow_df")
 })
