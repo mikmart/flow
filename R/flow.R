@@ -61,7 +61,14 @@ flow_table.data.frame <- function(x, ...) {
 }
 
 #' @export
-chart <- flow_table
+chart <- function(x, ...) {
+  UseMethod("chart")
+}
+
+#' @export
+chart.default <- function(x, ...) {
+  flow_table(x, ...)
+}
 
 set_flow_table <- function(x, value) {
   attr(x, "flow_table") <- value
