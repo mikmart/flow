@@ -13,7 +13,7 @@ conds_negate <- function(...) {
 
 expr_negate <- function(x) {
   if (!is_logic_call(x)) {
-    return(rlang::lang("!", x))
+    return(rlang::call2("!", x))
   }
 
   fn <- rlang::call_name(x)
@@ -42,7 +42,7 @@ expr_negate <- function(x) {
     args <- lapply(args, expr_negate)
   }
 
-  rlang::lang(fn, !!!args)
+  rlang::call2(fn, !!!args)
 }
 
 is_logic_call <- function(x) {
