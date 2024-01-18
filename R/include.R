@@ -18,17 +18,8 @@ include.flow_df <- function(.data, ..., .step = NULL) {
   update_flow(included, .data, step)
 }
 
-#' @export
-exclude <- function(.data, ...) {
-  UseMethod("exclude")
-}
-
-#' @export
-exclude.data.frame <- function(.data, ...) {
-  exclude(as_flow(.data), ...)
-}
-
-#' @export
-exclude.flow_df <- function(.data, ..., .step = NULL) {
-  include(.data, !!!conds_negate(...), .step = .step)
+conds_text <- function(..., .sep = " & ") {
+  conds <- rlang::enexprs(...)
+  texts <- purrr::map_chr(conds, rlang::expr_text)
+  paste(texts, collapse = .sep)
 }
