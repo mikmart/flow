@@ -18,7 +18,7 @@ dots_negate <- function(...) {
 }
 
 quo_negate <- function(quo) {
-  expr <- rlan::quo_get_expr(quo)
+  expr <- rlang::quo_get_expr(quo)
   rlang::quo_set_expr(quo, expr_negate(expr))
 }
 
