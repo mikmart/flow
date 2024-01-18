@@ -4,11 +4,13 @@ conds_text <- function(..., .sep = " & ") {
   paste(texts, collapse = .sep)
 }
 
-conds_negate <- function(...) {
-  conds <- rlang::enquos(...)
-  exprs <- purrr::map(conds, rlang::quo_get_expr)
-  exprs <- purrr::map(exprs, expr_negate)
-  purrr::map2(conds, exprs, rlang::quo_set_expr)
+dots_negate <- function(...) {
+  lapply(rlang::enquos(...), quo_negate)
+}
+
+quo_negate <- function(quo) {
+  expr <- rlan::quo_get_expr(quo)
+  rlang::quo_set_expr(quo, expr_negate(expr))
 }
 
 expr_negate <- function(x) {
@@ -19,8 +21,8 @@ expr_negate <- function(x) {
   fn <- rlang::call_name(x)
   args <- rlang::call_args(x)
 
+  # Just strip negations.
   if (fn == "!") {
-    # Unary operator, so only ever 1 arg
     return(args[[1L]])
   }
 
@@ -37,8 +39,8 @@ expr_negate <- function(x) {
      "<" = ">="
   )
 
+  # Apply De Morgan's laws.
   if (fn %in% c("&", "|", "&&", "||")) {
-    # De Morgan: negate arguments, recursively
     args <- lapply(args, expr_negate)
   }
 
@@ -46,12 +48,7 @@ expr_negate <- function(x) {
 }
 
 is_logic_call <- function(x) {
-  if (!rlang::is_call(x)) {
-    return(FALSE)
-  }
-
-  rlang::call_name(x) %in% .logic_ops
+  rlang::is_call(x) && rlang::call_name(x) %in% .logic_ops
 }
 
-.logic_ops <- c("==", "!=", ">", ">=", "<", "<=",
-                "!", "&", "|", "&&", "||")
+.logic_ops <- c("!", "&", "|", "&&", "||", "==", "!=", ">", ">=", "<", "<=")
