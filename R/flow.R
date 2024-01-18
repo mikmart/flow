@@ -10,11 +10,11 @@ flow <- function(x, initial = "Initial population") {
 #' @export
 track <- flow
 
-new_flow <- function(x, flow_table, ..., subclass = NULL) {
+new_flow <- function(x, flow_table, ..., class = NULL) {
   tibble::new_tibble(x,
     flow_table = flow_table,
     ...,
-    subclass = c(subclass, "flow_df")
+    class = c(class, "flow_df")
   )
 }
 
