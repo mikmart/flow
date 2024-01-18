@@ -8,7 +8,7 @@ include.data.frame <- function(.data, ...) {
   include(as_flow(.data), ...)
 }
 
-#' @importFrom purrr %||%
+#' @importFrom rlang %||%
 #' @export
 include.flow_df <- function(.data, ..., .step = NULL) {
   included <- dplyr::filter(as_tibble(.data), ...)
@@ -20,6 +20,6 @@ include.flow_df <- function(.data, ..., .step = NULL) {
 
 conds_text <- function(..., .sep = " & ") {
   conds <- rlang::enexprs(...)
-  texts <- purrr::map_chr(conds, rlang::expr_text)
+  texts <- vapply(conds, rlang::expr_text, character(1))
   paste(texts, collapse = .sep)
 }
