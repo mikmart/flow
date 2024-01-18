@@ -13,13 +13,5 @@ include.data.frame <- function(.data, ...) {
 include.flow_df <- function(.data, ..., .step = NULL) {
   included <- dplyr::filter(as_tibble(.data), ...)
   included <- reconstruct(included, .data)
-
-  step <- .step %||% conds_text(...)
-  update_flow(included, .data, step)
-}
-
-conds_text <- function(..., .sep = " & ") {
-  conds <- rlang::enexprs(...)
-  texts <- vapply(conds, rlang::expr_text, character(1))
-  paste(texts, collapse = .sep)
+  update_flow(included, .data, .step %||% step_auto_name(...))
 }

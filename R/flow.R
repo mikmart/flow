@@ -95,6 +95,14 @@ update_flow <- function(included, original, step) {
   add_step(included, step, n_incl, n_excl)
 }
 
+step_auto_name <- function(...) {
+  paste(dots_text(...), collapse = " & ")
+}
+
+dots_text <- function(...) {
+  vapply(rlang::enexprs(...), rlang::expr_text, character(1))
+}
+
 all.equal.flow_df <- function(target, current, ...) {
   msg <- attr.all.equal(target, current)
   if (is.null(msg)) return(NextMethod())
